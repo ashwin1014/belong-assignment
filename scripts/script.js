@@ -29,6 +29,18 @@ let appDashBoardFunctions = (()=> {
        });
     };
 
+    const checkSelected = () => {
+      let checkBox = document.querySelectorAll('.chkbox');
+      let checkedBoxes = [];
+      for(var i=1; i<checkBox.length; i++){
+        if(checkBox[i].checked) checkedBoxes.push(checkBox[i])
+       }
+
+       if((checkedBoxes.length+1) == checkBox.length) checkBox[0].checked = true;
+
+       else if(checkBox[0].checked == true && (checkedBoxes.length+1) !== checkBox.length) checkBox[0].checked = false;
+    };
+
     const deleteRow = (ele) => {
         ele.parentElement.remove();
         let items = JSON.parse(localStorage.getItem("members"));
@@ -40,6 +52,20 @@ let appDashBoardFunctions = (()=> {
         items = JSON.stringify(items);
         localStorage.setItem("members", items);
     };
+
+    const alphabeticalSort = ()=> {
+        let items = JSON.parse(localStorage.getItem("members"));
+        let sortedArray = items.sort((a, b)=>{
+            var x = a.name.toLowerCase();
+            var y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+        items = JSON.stringify(sortedArray);
+        localStorage.setItem("members", items);
+        generateMembersTable();
+    }
 
     const saveItems = ()=> {
         let getcurrentDate = new Date();
@@ -82,7 +108,7 @@ let appDashBoardFunctions = (()=> {
           tableHtml += `
           <div class="div-table-row header">
             <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleCheckbox(this)"></div>
-            <div class="div-table-col">Name<i class="material-icons">arrow_upward</i></div>
+            <div class="div-table-col" onclick="appDashBoardFunctions.alphabeticalSort()" style="cursor:pointer">Name</div>
             <div class="div-table-col">Company</div>
             <div class="div-table-col">Status</div>
             <div class="div-table-col">Last Updated</div>
@@ -94,7 +120,7 @@ let appDashBoardFunctions = (()=> {
           items.map((ele)=>{
               tableHtml += `
               <div class="div-table-row check">
-                <div class="div-table-col "><input type="checkbox" class="chkbox" name="" id=""></div>
+                <div class="div-table-col "><input type="checkbox" class="chkbox" onchange="appDashBoardFunctions.checkSelected()"></div>
                 <div class="div-table-col">${ele.name}</div>
                 <div class="div-table-col">${ele.company}</div>
                 <div class="div-table-col">${ele.status}</div>
@@ -151,7 +177,9 @@ let appDashBoardFunctions = (()=> {
         deleteRow: deleteRow,
         saveItems: saveItems,
         generateMembersTable: generateMembersTable,
-        checkLocalStorage: checkLocalStorage
+        checkLocalStorage: checkLocalStorage,
+        alphabeticalSort: alphabeticalSort,
+        checkSelected: checkSelected
     }
 
    return returnObject;
