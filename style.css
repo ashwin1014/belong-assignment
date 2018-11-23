@@ -11,18 +11,19 @@ body{
     margin: 0;
 }
 
-button#addMembers{    
+button#addMembers{   
+    position: relative;
+    border: none;
+    display: inline-flex;
+    vertical-align: middle;
+    cursor: pointer; 
     border-radius: 24px;
     font-size: 14px;    
     margin-left: 20px;
     padding-left: 10px;
     line-height: 25px;
-    border: none;
-    display: inline-flex;
-    vertical-align: middle;
-    cursor: pointer;
- 
-}
+    top: 21px;
+ }
 
 #content{
     display: grid;
@@ -64,7 +65,7 @@ button#addMembers{
     grid-row: 2/5;     
 }
 
-#form1{
+#memberForm{
     margin-left: 10px;
 }
 
@@ -82,7 +83,7 @@ nav ul {
   }
 
   /* table */
-  .div-table {
+  #div-table {
     display: table;         
     width: auto;
   }
@@ -94,15 +95,30 @@ nav ul {
     box-shadow: 0 0 1px rgba(0, 0, 0, .25);
   }
   .div-table-col {
-    float: left; /* fix for  buggy browsers */
-    display: table-column;         
     width: 162px;
     min-width: 120px;         
     height: 43px;
     opacity: 0.9;
     background-color:var(--white);
     line-height: 40px;
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .div-table-col:last-child,
+  .div-table-col:first-child{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 120px;
+  }
+
+  .div-table-col:nth-child(6){
+      width:250px;
   }
 
   .div-table-row:nth-child(even){
@@ -115,6 +131,7 @@ nav ul {
 
   .div-table-row > .div-table-col:first-child{
       width: 70px;
+      min-width: 70px;
       border-left: 5px solid var(--white);
   }
 
@@ -170,7 +187,8 @@ nav ul {
     justify-content: flex-end;
 }
 
-.modal-header{
+.modal-header,
+div#tableHeader>div{
     display: flex;
     justify-content: flex-start;
 }
@@ -233,6 +251,11 @@ nav ul {
     outline: none;
 }
 
+#btnSave:disabled{
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .open {
     display: block;
 }
@@ -249,4 +272,16 @@ input[type=text] {
 form#addMemberForm label{
     display: flex;
     font-size: 14px;
+}
+
+div#tableHeader h1{
+    margin-left: 5px;
+}
+
+#modal-error-text{
+    position: relative;
+    top: 10px;
+    right: 130px;
+    color: red;
+    display: none
 }

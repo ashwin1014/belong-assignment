@@ -1,42 +1,21 @@
 window.onload = ()=> {
-    appDashBoardFunctions.displayTable();
     appDashBoardFunctions.checkLocalStorage();
+    appDashBoardFunctions.generateMembersTable();
 }
 
 let appDashBoardFunctions = (()=> {   
     
     let membersArray = [
-        {name: 'Wayne Rooney', company: 'Manchester United', status: 'closed', lastUpdated: '7/07/2017', notes:'Highest scorer'},
-        {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player'},
-        {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played'},
-        {name: 'Paul Pogba', company: 'Manchester United', status: 'Active', lastUpdated: '3/08/2011', notes:'United\'s most expensive'}
+        {name: 'Wayne Rooney', company: 'Manchester United', status: 'closed', lastUpdated: '7/07/2017', notes:'Highest scorer', key:'12'},
+        {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
+        {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:''},
+        {name: 'Paul Pogba', company: 'Manchester United', status: 'Active', lastUpdated: '3/08/2011', notes:'United\'s most expensive', key:'34'}
     ];
 
     const checkLocalStorage = ()=> {
         if (localStorage.getItem("members") === null) {
             localStorage.setItem("members", JSON.stringify(membersArray))
         }
-    }
-
-    const saveItems = ()=> {
-        let saveObject = {
-            name: document.getElementById('memberName').value, 
-            company: document.getElementById('memberCompany').value, 
-            status: document.getElementById('memberStatus').value, 
-            lastUpdated: document.getElementById('memberLastUpdate').value, 
-            notes:document.getElementById('memberNotes').value
-        };
-        membersArray.push(saveObject)
-        localStorage.setItem("members", JSON.stringify(membersArray));
-        closeModal()
-    }
-
-    const generateMembersTable = ()=> {
-        
-    }
-  
-    const openModal = ()=> {
-        document.getElementById('addMemberPopup').classList.add('open');
     };
 
     const closeModal = ()=> {
@@ -52,12 +31,116 @@ let appDashBoardFunctions = (()=> {
 
     const deleteRow = (ele) => {
         ele.parentElement.remove();
+        let items = JSON.parse(localStorage.getItem("members"));
+        let index = items.findIndex(function(el){
+            return el.key === ele.id
+        })
+        if (index !== -1) items.splice(index, 1);
+
+        items = JSON.stringify(items);
+        localStorage.setItem("members", items);
     };
 
-    let displayTable = () => {
-     //   console.log(membersArray);
-    }
+    const saveItems = ()=> {
+        let getcurrentDate = new Date();
+        let dd = getcurrentDate.getMonth()+1;
+        let mm = getcurrentDate.getDate();
+        let yyyy = getcurrentDate.getFullYear();
+        let currentDate = dd + '/' + mm + '/' + yyyy;
 
+        let validityCounter = 0;
+
+        document.querySelectorAll('.memberform').forEach((ele)=>{
+            if(ele.checkValidity()===true) validityCounter++
+        });
+
+        if(validityCounter === 4){
+            let saveObject = {
+                name: document.getElementById('memberName').value, 
+                company: document.getElementById('memberCompany').value, 
+                status: document.getElementById('memberStatus').value, 
+                lastUpdated: currentDate, 
+                notes:document.getElementById('memberNotes').value,
+                key:new Date().valueOf()
+            };
+
+            membersArray.push(saveObject)
+            localStorage.setItem("members", JSON.stringify(membersArray));
+            closeModal();
+            generateMembersTable();
+            validityCounter = 0;
+        } else  document.getElementById('modal-error-text').style.display='block';
+
+   
+    };
+
+    const generateMembersTable = ()=> {
+          let tableId = document.getElementById('div-table');  
+          let items = JSON.parse(localStorage.getItem("members"));
+          
+          let tableHtml = '';
+          tableHtml += `
+          <div class="div-table-row header">
+            <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleCheckbox(this)"></div>
+            <div class="div-table-col">Name<i class="material-icons">arrow_upward</i></div>
+            <div class="div-table-col">Company</div>
+            <div class="div-table-col">Status</div>
+            <div class="div-table-col">Last Updated</div>
+            <div class="div-table-col">Notes</div>
+            <div class="div-table-col"></div>
+         </div>`;
+
+          
+          items.map((ele)=>{
+              tableHtml += `
+              <div class="div-table-row check">
+                <div class="div-table-col "><input type="checkbox" class="chkbox" name="" id=""></div>
+                <div class="div-table-col">${ele.name}</div>
+                <div class="div-table-col">${ele.company}</div>
+                <div class="div-table-col">${ele.status}</div>
+                <div class="div-table-col">${ele.lastUpdated}</div>
+                <div class="div-table-col">${ele.notes}</div>
+                <div class="div-table-col" onclick="appDashBoardFunctions.deleteRow(this)" id="${ele.key}"><i class="material-icons">delete</i></div>
+             </div>              
+              `
+          })
+          tableId.innerHTML = '';
+          tableId.innerHTML = tableHtml;
+    }
+  
+    const openModal = ()=> {
+
+        let modal = document.getElementById('addMemberPopup'); 
+        modal.classList.add('open');
+        let modalHtml = '';
+        modalHtml += `        
+        <div class="modal-window">
+            <span class="modal-close" onclick="appDashBoardFunctions.closeModal()"><i class="material-icons">close</i></span>
+            <h3 class="modal-header">Add members</h3>
+            <div class="modal-body">
+            <form action="" id="addMemberForm">
+                <label for="memname"><b>Name</b></label>
+                <input type="text" name="memname" id="memberName" class="memberform" required>
+        
+                <label for="memcompany"><b>Company</b></label>
+                <input type="text" name="memcompany" id="memberCompany" class="memberform" required>
+
+                <label for="memstatus"><b>Status</b></label>
+                <input type="text" name="memstatus" id="memberStatus" class="memberform" required>
+                
+                <label for="memnotes"><b>Notes</b></label>
+                <input type="text" name="memnotes" id="memberNotes" class="memberform" required>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <span id="modal-error-text">All fields must be filled</span>
+                <button class="btn-default" onclick="appDashBoardFunctions.closeModal()">Cancel</button>
+                <button type="submit" id="btnSave" class="btn-primary" onclick="appDashBoardFunctions.saveItems()">Save</button>
+            </div>
+      </div>`
+        modal.innerHTML = '';
+        modal.innerHTML = modalHtml;
+    };
 
 
     //reveal functions
@@ -67,7 +150,7 @@ let appDashBoardFunctions = (()=> {
         toggleCheckbox: toggleCheckbox,
         deleteRow: deleteRow,
         saveItems: saveItems,
-        displayTable: displayTable,
+        generateMembersTable: generateMembersTable,
         checkLocalStorage: checkLocalStorage
     }
 
@@ -80,9 +163,12 @@ document.getElementById('addMembers').addEventListener('click', function() {
     appDashBoardFunctions.openModal();
 });
 
-document.getElementById('btnSave').addEventListener('click', function(){
-    appDashBoardFunctions.saveItems();
-})
+// document.getElementById('btnSave').addEventListener('click', function(){
+//     appDashBoardFunctions.saveItems();
+// })
+
+
+
 
 
 
