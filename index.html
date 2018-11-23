@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>App Dashboard</title>
+</head>
+<body>
+
+ 
+    <div id="content">
+        <div id="leftPanel">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Team Members</a></li>
+                    <li><a href="">Analytics</a></li>
+                    <li><a href="">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="tableHeader">
+            <h1>Team Members</h1>
+            <button id="addMembers" class="btn-primary">Add Members<i class="material-icons">add</i></button>
+
+            <form id="form1">
+                <div class="div-table">
+                       <div class="div-table-row header">
+                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col">Name<i class="material-icons">arrow_upward</i></div>
+                          <div class="div-table-col">Company<i class="material-icons">arrow_upward</i></div>
+                          <div class="div-table-col">Status</div>
+                          <div class="div-table-col">Last Updated</div>
+                          <div class="div-table-col">Notes</div>
+                          <div class="div-table-col"></div>
+                       </div>
+                      <div class="div-table-row check">
+                         <div class="div-table-col "><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col">001</div>
+                          <div class="div-table-col">002</div>
+                          <div class="div-table-col">003</div>
+                          <div class="div-table-col">004</div>
+                          <div class="div-table-col">005</div>
+                          <div class="div-table-col"><i class="material-icons">delete</i></div>
+                      </div>
+                      <div class="div-table-row check">
+                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col">xxx</div>
+                          <div class="div-table-col">yyy</div>
+                          <div class="div-table-col">www</div>
+                          <div class="div-table-col">asd</div>
+                          <div class="div-table-col">sdf</div>
+                          <div class="div-table-col"><i class="material-icons">delete</i></div>
+                     </div>
+                      <div class="div-table-row check">
+                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col">ttt</div>
+                          <div class="div-table-col">uuu</div>
+                          <div class="div-table-col">Mkkk</div>
+                          <div class="div-table-col">rtet</div>
+                          <div class="div-table-col">ert</div>
+                          <div class="div-table-col"><i class="material-icons">delete</i></div>
+                     </div>
+          
+                </div>
+            </form>
+
+
+        </div>
+        <!-- <div id="tableContainer">                
+        </div> -->
+
+        <div id="addMemberPopup" class="modal">
+                <div class="modal-window">
+                    <span class="modal-close" onclick="appDashBoardFunctions.closeModal()"><i class="material-icons">close</i></span>
+                    <h3 class="modal-header">Add members</h3>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                            <button class="btn-default" onclick="appDashBoardFunctions.closeModal()">Cancel</button>
+                            <button id="btnSave" class="btn-primary">Save</button>
+                    </div>
+                </div>
+       </div>
+
+    </div>
+    <script src="scripts/script.js"></script>
+</body>
+</html>

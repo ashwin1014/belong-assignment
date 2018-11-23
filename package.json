@@ -1,0 +1,19 @@
+{
+  "name": "belong-assignment",
+  "version": "1.0.0",
+  "description": "fronted assignment",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashwin1014/belong-assignment.git"
+  },
+  "author": "Ashwin Bordoloi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashwin1014/belong-assignment/issues"
+  },
+  "homepage": "https://github.com/ashwin1014/belong-assignment#readme"
+}
