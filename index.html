@@ -26,11 +26,10 @@
         <div id="tableHeader">
             <h1>Team Members</h1>
             <button id="addMembers" class="btn-primary">Add Members<i class="material-icons">add</i></button>
-
             <form id="form1">
                 <div class="div-table">
                        <div class="div-table-row header">
-                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleCheckbox(this)"></div>
                           <div class="div-table-col">Name<i class="material-icons">arrow_upward</i></div>
                           <div class="div-table-col">Company<i class="material-icons">arrow_upward</i></div>
                           <div class="div-table-col">Status</div>
@@ -39,16 +38,16 @@
                           <div class="div-table-col"></div>
                        </div>
                       <div class="div-table-row check">
-                         <div class="div-table-col "><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col "><input type="checkbox" class="chkbox" name="" id=""></div>
                           <div class="div-table-col">001</div>
                           <div class="div-table-col">002</div>
                           <div class="div-table-col">003</div>
                           <div class="div-table-col">004</div>
                           <div class="div-table-col">005</div>
-                          <div class="div-table-col"><i class="material-icons">delete</i></div>
+                          <div class="div-table-col" onclick="appDashBoardFunctions.deleteRow(this)"><i class="material-icons">delete</i></div>
                       </div>
                       <div class="div-table-row check">
-                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id=""></div>
                           <div class="div-table-col">xxx</div>
                           <div class="div-table-col">yyy</div>
                           <div class="div-table-col">www</div>
@@ -57,7 +56,7 @@
                           <div class="div-table-col"><i class="material-icons">delete</i></div>
                      </div>
                       <div class="div-table-row check">
-                          <div class="div-table-col"><input type="checkbox" name="" id=""></div>
+                          <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id=""></div>
                           <div class="div-table-col">ttt</div>
                           <div class="div-table-col">uuu</div>
                           <div class="div-table-col">Mkkk</div>
@@ -79,7 +78,22 @@
                     <span class="modal-close" onclick="appDashBoardFunctions.closeModal()"><i class="material-icons">close</i></span>
                     <h3 class="modal-header">Add members</h3>
                     <div class="modal-body">
+                     <form action="" id="addMemberForm">
+                        <label for="memname"><b>Name</b></label>
+                        <input type="text" name="memname" id="memberName">
+                  
+                        <label for="memcompany"><b>Company</b></label>
+                        <input type="text" name="memcompany" id="memberCompany">
 
+                        <label for="memstatus"><b>Status</b></label>
+                        <input type="text" name="memstatus" id="memberStatus">
+
+                        <label for="memupdate"><b>Last updated</b></label>
+                        <input type="text" name="memupdate" id="memberLastUpdate">
+
+                        <label for="memnotes"><b>Notes</b></label>
+                        <input type="text" name="memnotes" id="memberNotes">
+                     </form>
                     </div>
                     <div class="modal-footer">
                             <button class="btn-default" onclick="appDashBoardFunctions.closeModal()">Cancel</button>

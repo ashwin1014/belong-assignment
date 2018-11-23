@@ -7,7 +7,7 @@
 body{
     font-family: 'Lato', sans-serif;
     text-align: center;
-    color: #333;
+    color: var(--base-black);
     margin: 0;
 }
 
@@ -35,12 +35,12 @@ button#addMembers{
 }
 
  #content #leftPanel{
-    background: #333;
+    background: var(--base-black);
     padding: 30px;
 }
 
 #tableHeader{
-    background: #FFF;
+    background: var(--white);
 }
 
 #leftPanel{
@@ -100,7 +100,7 @@ nav ul {
     min-width: 120px;         
     height: 43px;
     opacity: 0.9;
-    background-color: #ffffff;
+    background-color:var(--white);
     line-height: 40px;
     text-align: left;
   }
@@ -115,7 +115,7 @@ nav ul {
 
   .div-table-row > .div-table-col:first-child{
       width: 70px;
-      border-left: 5px solid #FFF;
+      border-left: 5px solid var(--white);
   }
 
 
@@ -159,9 +159,9 @@ nav ul {
 
 .modal-window {
     position: relative;
-    background-color: #FFFFFF;
+    background-color: var(--white);
     width: 50%;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
 }
 
@@ -173,6 +173,12 @@ nav ul {
 .modal-header{
     display: flex;
     justify-content: flex-start;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #000000;
+    cursor: pointer;
 }
 
 .modal-close {
@@ -227,13 +233,20 @@ nav ul {
     outline: none;
 }
 
-.close:hover,
-.close:focus {
-    color: #000000;
-    cursor: pointer;
-}
-
 .open {
     display: block;
 }
 
+input[type=text] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+form#addMemberForm label{
+    display: flex;
+    font-size: 14px;
+}
