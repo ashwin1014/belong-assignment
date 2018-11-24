@@ -45,9 +45,14 @@ let appDashBoardFunctions = (()=> {
 
     const toggleDropdown=()=>{
         let ddId = document.getElementById('dropdown-list');
+        let ddBtn = document.getElementById('dropdownCheckbox');
         ddId.classList.toggle('hidden'); 
         generateDropdownList();
         document.getElementById('counter').innerHTML = '0';
+
+        if(ddBtn.childNodes[3].innerText == "keyboard_arrow_down") ddBtn.childNodes[3].innerText = "keyboard_arrow_up";
+        else ddBtn.childNodes[3].innerText = "keyboard_arrow_down";
+
     };
 
     const checkSelected = (ele) => {
@@ -65,9 +70,7 @@ let appDashBoardFunctions = (()=> {
       }
 
        if((checkedBoxes.length+1) == checkBox.length) checkBox[0].checked = true;
-
        else if(checkBox[0].checked == true && (checkedBoxes.length+1) !== checkBox.length) checkBox[0].checked = false;
-
        
        if(ele.classList[0] == 'drpDwnChkbox') document.getElementById('counter').innerHTML = checkedBoxes.length;
     };
@@ -80,15 +83,16 @@ let appDashBoardFunctions = (()=> {
         });
         if (index !== -1) items.splice(index, 1);
 
-        items = JSON.stringify(items);
-        localStorage.setItem("members", items);
+        let newItems = items;
+        newItems = JSON.stringify(newItems);
+        localStorage.setItem("members", newItems);
     };
 
     const alphabeticalSort = (ele)=> {
         let items = JSON.parse(localStorage.getItem("members"));
         let sortedArray = items.sort((a, b)=>{
-            var x = a.name.toLowerCase();
-            var y = b.name.toLowerCase();
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
             if (x < y) {return -1;}
             if (x > y) {return 1;}
             return 0;
@@ -119,7 +123,7 @@ let appDashBoardFunctions = (()=> {
                 status: document.getElementById('memberStatus').value, 
                 lastUpdated: currentDate, 
                 notes:document.getElementById('memberNotes').value,
-                key:new Date().valueOf()
+                key:(new Date().getTime()).toString(36)
             };
 
             membersArray.push(saveObject);
@@ -146,9 +150,7 @@ let appDashBoardFunctions = (()=> {
             <div class="div-table-col">Last Updated</div>
             <div class="div-table-col">Notes</div>
             <div class="div-table-col"></div>
-         </div>`;
-
-          
+         </div>`;          
           items.map((ele)=>{
               tableHtml += `
               <div class="div-table-row check">
@@ -166,9 +168,9 @@ let appDashBoardFunctions = (()=> {
     };
   
     const openModal = ()=> {
-
         let modal = document.getElementById('addMemberPopup'); 
         modal.classList.add('open');
+
         let modalHtml = '';
         modalHtml += `        
         <div class="modal-window">
