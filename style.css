@@ -33,25 +33,24 @@
     /* grid-gap: 5px; */
     margin:0 auto;
     height:calc(100vh);
+    overflow: hidden;
     }
     
     #content #leftPanel {
     background:var(--base-black);
     padding:10px;
     }
-    
-    #tableHeader {
-    background:var(--white);
-    }
-    
+ 
     #leftPanel {
     grid-column:1;
     grid-row:1/5;
     }
     
     #tableHeader {
+    background:var(--white);
     grid-column:2/7;
     grid-row:1/5;
+    overflow: hidden;
     }
     
     #tableHeader h1 {
@@ -65,7 +64,10 @@
     }
     
     #memberForm {
-    margin-left:10px;
+    margin: 0 15px;
+    display: grid;
+    grid-template-rows: 75vh;
+    overflow: auto;
     }
     
     .navHeader {
@@ -116,6 +118,7 @@
     #div-table {
     display:table;
     width:auto;
+    min-width: 111vw;
     }
     
     .div-table-row {

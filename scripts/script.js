@@ -138,6 +138,7 @@ let appDashBoardFunctions = (()=> {
 
     const generateMembersTable = (arr)=> {
           let tableId = document.getElementById('div-table');  
+          let formId = document.getElementById('memberForm');
           let items = arr!==undefined ? arr:JSON.parse(localStorage.getItem("members"));
           
           let tableHtml = '';
@@ -165,6 +166,10 @@ let appDashBoardFunctions = (()=> {
           });
           tableId.innerHTML = '';
           tableId.innerHTML = tableHtml;
+
+          if(formId.scrollHeight>formId.clientHeight) formId.style.margin='0 6.5px';
+
+          
     };
   
     const openModal = ()=> {
