@@ -9,7 +9,9 @@ let appDashBoardFunctions = (()=> {
         {name: 'Wayne Rooney', company: 'Manchester United', status: 'closed', lastUpdated: '7/07/2017', notes:'Highest scorer', key:'12'},
         {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
         {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:''},
-        {name: 'Paul Pogba', company: 'Manchester United', status: 'Active', lastUpdated: '3/08/2011', notes:'United\'s most expensive', key:'34'}
+        {name: 'Paul Pogba', company: 'Manchester United', status: 'Active', lastUpdated: '3/08/2011', notes:'United\'s most expensive', key:'34'},
+        {name: 'Zlatan Ibrahimovic', company: 'LA Galaxy', status: 'Active', lastUpdated: '3/09/2018', notes:'I am \'ZLATAN\' ', key:'9'},
+
     ];
 
     const checkLocalStorage = ()=> {
@@ -23,14 +25,34 @@ let appDashBoardFunctions = (()=> {
     };
 
      const toggleCheckbox = (ele)=> {
-        let checkbox = document.querySelectorAll('.chkbox');
+        let checkbox;
+        if(ele.id == 'selectAllChkbox'){
+            checkbox = document.querySelectorAll('.chkbox');
+        } else if(ele.id == 'dropdownAll') {
+            checkbox = document.querySelectorAll('.drpDwnChkbox');
+        }
+        
         checkbox.forEach((item)=>{
             if(item !== ele) item.checked = ele.checked
        });
     };
 
-    const checkSelected = () => {
-      let checkBox = document.querySelectorAll('.chkbox');
+    const toggleDropdown=()=>{
+        let ddId = document.getElementById('dropdown-list');
+        ddId.classList.toggle('hidden'); 
+        generateDropdownList();
+        document.getElementById('counter').innerHTML = '0';
+    };
+
+    const checkSelected = (ele) => {
+      let checkBox;
+
+      if(ele.classList[0] == 'chkbox'){
+        checkBox = document.querySelectorAll('.chkbox');
+      }else if(ele.classList[0] == 'drpDwnChkbox'){
+        checkBox = document.querySelectorAll('.drpDwnChkbox');
+      }
+      
       let checkedBoxes = [];
       for(var i=1; i<checkBox.length; i++){
         if(checkBox[i].checked) checkedBoxes.push(checkBox[i])
@@ -39,6 +61,9 @@ let appDashBoardFunctions = (()=> {
        if((checkedBoxes.length+1) == checkBox.length) checkBox[0].checked = true;
 
        else if(checkBox[0].checked == true && (checkedBoxes.length+1) !== checkBox.length) checkBox[0].checked = false;
+
+       
+       if(ele.classList[0] == 'drpDwnChkbox') document.getElementById('counter').innerHTML = checkedBoxes.length;
     };
 
     const deleteRow = (ele) => {
@@ -53,7 +78,7 @@ let appDashBoardFunctions = (()=> {
         localStorage.setItem("members", items);
     };
 
-    const alphabeticalSort = ()=> {
+    const alphabeticalSort = (ele)=> {
         let items = JSON.parse(localStorage.getItem("members"));
         let sortedArray = items.sort((a, b)=>{
             var x = a.name.toLowerCase();
@@ -65,6 +90,7 @@ let appDashBoardFunctions = (()=> {
         items = JSON.stringify(sortedArray);
         localStorage.setItem("members", items);
         generateMembersTable();
+        
     }
 
     const saveItems = ()=> {
@@ -108,7 +134,7 @@ let appDashBoardFunctions = (()=> {
           tableHtml += `
           <div class="div-table-row header">
             <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleCheckbox(this)"></div>
-            <div class="div-table-col" onclick="appDashBoardFunctions.alphabeticalSort()" style="cursor:pointer">Name</div>
+            <div class="div-table-col" onclick="appDashBoardFunctions.alphabeticalSort(this)" style="cursor:pointer">Name</div>
             <div class="div-table-col">Company</div>
             <div class="div-table-col">Status</div>
             <div class="div-table-col">Last Updated</div>
@@ -120,7 +146,7 @@ let appDashBoardFunctions = (()=> {
           items.map((ele)=>{
               tableHtml += `
               <div class="div-table-row check">
-                <div class="div-table-col "><input type="checkbox" class="chkbox" onchange="appDashBoardFunctions.checkSelected()"></div>
+                <div class="div-table-col "><input type="checkbox" class="chkbox" onchange="appDashBoardFunctions.checkSelected(this)"></div>
                 <div class="div-table-col">${ele.name}</div>
                 <div class="div-table-col">${ele.company}</div>
                 <div class="div-table-col">${ele.status}</div>
@@ -129,7 +155,7 @@ let appDashBoardFunctions = (()=> {
                 <div class="div-table-col" onclick="appDashBoardFunctions.deleteRow(this)" id="${ele.key}"><i class="material-icons">delete</i></div>
              </div>              
               `
-          })
+          });
           tableId.innerHTML = '';
           tableId.innerHTML = tableHtml;
     }
@@ -168,18 +194,33 @@ let appDashBoardFunctions = (()=> {
         modal.innerHTML = modalHtml;
     };
 
+    const generateDropdownList = ()=>{
+        let ddList = document.getElementById('dropdown-list');
+        let items = JSON.parse(localStorage.getItem("members"));
+        let dropdownHtml = '';
+        dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleCheckbox(this)">Select all</li>';
+        items.map((ele)=>{
+            dropdownHtml += `
+            <li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSelected(this)">${ele.company}</li>`;
+        });
+        ddList.innerHTML = '';
+        ddList.innerHTML = dropdownHtml;
+    }
+
 
     //reveal functions
     const returnObject = {
         openModal: openModal,
         closeModal: closeModal,
         toggleCheckbox: toggleCheckbox,
+        toggleDropdown: toggleDropdown,
         deleteRow: deleteRow,
         saveItems: saveItems,
         generateMembersTable: generateMembersTable,
         checkLocalStorage: checkLocalStorage,
         alphabeticalSort: alphabeticalSort,
-        checkSelected: checkSelected
+        checkSelected: checkSelected,
+        generateDropdownList: generateDropdownList
     }
 
    return returnObject;
@@ -191,19 +232,51 @@ document.getElementById('addMembers').addEventListener('click', function() {
     appDashBoardFunctions.openModal();
 });
 
-// document.getElementById('btnSave').addEventListener('click', function(){
-//     appDashBoardFunctions.saveItems();
-// })
+let homePanel = document.getElementById('homePanel');
+let teamPanel = document.getElementById('teamPanel');
+let analyticsPanel = document.getElementById('analyticsPanel');
+let settingsPanel = document.getElementById('settingsPanel');
+
+homePanel.addEventListener('click', function(){
+    document.getElementById('panelHeader').innerText = 'Home';
+    document.getElementById('memberForm').style.display = 'none';
+    document.getElementById('addMembers').style.display = 'none';
+    homePanel.classList.add('active');
+    teamPanel.classList.remove('active');
+    analyticsPanel.classList.remove('active');
+    settingsPanel.classList.remove('active'); 
+})
+
+document.getElementById('teamPanel').addEventListener('click', function(){
+    appDashBoardFunctions.generateMembersTable();
+    document.getElementById('panelHeader').innerText = 'Team Members';
+    document.getElementById('memberForm').style.display = 'block';
+    document.getElementById('addMembers').style.display = '';
+    homePanel.classList.remove('active');
+    teamPanel.classList.add('active');
+    analyticsPanel.classList.remove('active');
+    settingsPanel.classList.remove('active');
+})
+
+document.getElementById('analyticsPanel').addEventListener('click', function(){
+    document.getElementById('panelHeader').innerText = 'Analytics';
+    document.getElementById('memberForm').style.display = 'none';
+    document.getElementById('addMembers').style.display = 'none';
+    homePanel.classList.remove('active');
+    teamPanel.classList.remove('active');
+    analyticsPanel.classList.add('active');
+    settingsPanel.classList.remove('active');
+})
+
+document.getElementById('settingsPanel').addEventListener('click', function(){
+    document.getElementById('panelHeader').innerText = 'Settings';
+    document.getElementById('memberForm').style.display = 'none';
+    document.getElementById('addMembers').style.display = 'none';
+    homePanel.classList.remove('active');
+    teamPanel.classList.remove('active');
+    analyticsPanel.classList.remove('active');
+    settingsPanel.classList.add('active');
+})
 
 
-
-
-
-
-// document.getElementById('add').addEventListener('click', function() {
-//     // newItems.push({name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played'})
-//     // localStorage.setItem("members", JSON.stringify(newItems))
-//     // var items = JSON.parse(localStorage.getItem("members"));
-//     console.log(items)
-// });
 

@@ -37,7 +37,7 @@ button#addMembers{
 
  #content #leftPanel{
     background: var(--base-black);
-    padding: 30px;
+    padding: 10px;
 }
 
 #tableHeader{
@@ -55,7 +55,7 @@ button#addMembers{
     /* align-items: initial; */
 }
 
-#tableHeader > h1{
+#tableHeader  h1{
     display: inline-grid;
     margin-left: 10px;
 }
@@ -69,17 +69,43 @@ button#addMembers{
     margin-left: 10px;
 }
 
+.navHeader{
+    color:#FFF; 
+    display:flex; 
+    margin-left: 10px;
+}
+
+.header.div-table-row  .div-table-col:first-child{
+    border-left: 5px solid var(--white) !important;
+}
+
 nav ul {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     list-style: none;
     text-align: left;
+    padding-left: 0px;
   }
+
+nav ul li{
+    padding: 10px;
+}
+
+nav ul li.active{
+    background-color: #4b74ff;
+    width: 200px;
+    height: 20px;
+    display: flex;
+}
 
   nav ul li a{
     color: #c6cbd4;
     text-decoration: none;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    cursor: pointer;
   }
 
   /* table */
@@ -91,16 +117,16 @@ nav ul {
     display: table-row;
     width: auto;
     clear: both;
-    height: 43px;
+    height: 59px;
     box-shadow: 0 0 1px rgba(0, 0, 0, .25);
   }
   .div-table-col {
     width: 162px;
     min-width: 120px;         
-    height: 43px;
+    height: 59px;
     opacity: 0.9;
     background-color:var(--white);
-    line-height: 40px;
+    line-height: 57px;
     float: left; /* fix for  buggy browsers */
     display: table-column;         
     text-align: left;
@@ -119,6 +145,10 @@ nav ul {
 
   .div-table-col:nth-child(6){
       width:250px;
+  }
+
+  .div-table-row:first-child{
+    background-color: #fbfbfb !important;
   }
 
   .div-table-row:nth-child(even){
@@ -188,9 +218,10 @@ nav ul {
 }
 
 .modal-header,
-div#tableHeader>div{
+div#tableHeader>div:first-child{
     display: flex;
     justify-content: flex-start;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
 }
 
 .modal-close:hover,
@@ -274,9 +305,6 @@ form#addMemberForm label{
     font-size: 14px;
 }
 
-div#tableHeader h1{
-    margin-left: 5px;
-}
 
 #modal-error-text{
     position: relative;
@@ -284,4 +312,59 @@ div#tableHeader h1{
     right: 130px;
     color: red;
     display: none
+}
+
+#dropdown label{
+    display:block;
+}
+
+#dropdown-list li{
+    list-style: none;
+    display: flex;
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+}
+ul#dropdown-list{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    width: 200px;
+    height: auto; 
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-left: 0;
+    margin: 2px 0 0 0;
+    border-radius: 0;
+    position: absolute;
+    background: #FFF;
+    top: 31px;
+}
+button#dropdownCheckbox{
+    width: 120px;
+    height: 32px;
+    border-radius: 2px;
+    line-height: 25px;
+    padding-left: 12px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.35);
+    color: #333;
+    background: #FFF;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    vertical-align: middle;    
+}
+
+.dropdownHolder{
+    z-index: 9;
+    margin: 20px;
+    display: flex;
+    position: relative;
+}
+
+.hidden{
+  display: none
+}
+
+#counter{
+    margin:0;
 }
