@@ -6,9 +6,9 @@ window.onload = ()=> {
 let appDashBoardFunctions = (()=> {   
     
     let membersArray = [
-        {name: 'Wayne Rooney', company: 'DC United', status: 'Active', lastUpdated: '7/07/2017', notes:'ManUtd Highest scorer', key:'12'},
         {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
-        {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:''},
+        {name: 'Wayne Rooney', company: 'DC United', status: 'Active', lastUpdated: '7/07/2017', notes:'ManUtd Highest scorer', key:'12'},
+        {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:'24'},
         {name: 'Zlatan Ibrahimovic', company: 'LA Galaxy', status: 'Active', lastUpdated: '3/09/2018', notes:'I am \'ZLATAN\' ', key:'9'},
     ];
 
