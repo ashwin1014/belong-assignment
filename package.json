@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ashwin1014/belong-assignment/issues"
   },
-  "homepage": "https://github.com/ashwin1014/belong-assignment#readme"
+  "homepage": "https://github.com/ashwin1014/belong-assignment#readme",
+  "dependencies": {
+    "jshint": "^2.9.6"
+  }
 }

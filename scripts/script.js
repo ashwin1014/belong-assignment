@@ -1,7 +1,7 @@
 window.onload = ()=> {
     appDashBoardFunctions.checkLocalStorage();
     appDashBoardFunctions.generateMembersTable();
-}
+};
 
 let appDashBoardFunctions = (()=> {   
     
@@ -16,7 +16,7 @@ let appDashBoardFunctions = (()=> {
 
     const checkLocalStorage = ()=> {
         if (localStorage.getItem("members") === null) {
-            localStorage.setItem("members", JSON.stringify(membersArray))
+            localStorage.setItem("members", JSON.stringify(membersArray));
         }
     };
 
@@ -36,7 +36,7 @@ let appDashBoardFunctions = (()=> {
         checkbox.forEach((item)=>{
             if(item !== ele) {
                 item.checked = ele.checked;
-                if(ele.checked==true) checkedBoxes.push(ele.checked)
+                if(ele.checked==true) checkedBoxes.push(ele.checked);
             }
        });
 
@@ -61,7 +61,7 @@ let appDashBoardFunctions = (()=> {
       
       let checkedBoxes = [];
       for(var i=1; i<checkBox.length; i++){
-        if(checkBox[i].checked) checkedBoxes.push(checkBox[i])
+        if(checkBox[i].checked) checkedBoxes.push(checkBox[i]);
       }
 
        if((checkedBoxes.length+1) == checkBox.length) checkBox[0].checked = true;
@@ -76,8 +76,8 @@ let appDashBoardFunctions = (()=> {
         ele.parentElement.remove();
         let items = JSON.parse(localStorage.getItem("members"));
         let index = items.findIndex(function(el){
-            return el.key === ele.id
-        })
+            return el.key === ele.id;
+        });
         if (index !== -1) items.splice(index, 1);
 
         items = JSON.stringify(items);
@@ -93,11 +93,11 @@ let appDashBoardFunctions = (()=> {
             if (x > y) {return 1;}
             return 0;
         });
-        items = JSON.stringify(sortedArray);
-        localStorage.setItem("members", items);
-        generateMembersTable();
+       // items = JSON.stringify(sortedArray);
+       // localStorage.setItem("members", items);
+        generateMembersTable(sortedArray);
         
-    }
+    };
 
     const saveItems = ()=> {
         let getcurrentDate = new Date();
@@ -109,7 +109,7 @@ let appDashBoardFunctions = (()=> {
         let validityCounter = 0;
 
         document.querySelectorAll('.memberform').forEach((ele)=>{
-            if(ele.checkValidity()===true) validityCounter++
+            if(ele.checkValidity()===true) validityCounter++;
         });
 
         if(validityCounter === 4){
@@ -122,7 +122,7 @@ let appDashBoardFunctions = (()=> {
                 key:new Date().valueOf()
             };
 
-            membersArray.push(saveObject)
+            membersArray.push(saveObject);
             localStorage.setItem("members", JSON.stringify(membersArray));
             closeModal();
             generateMembersTable();
@@ -132,9 +132,9 @@ let appDashBoardFunctions = (()=> {
    
     };
 
-    const generateMembersTable = ()=> {
+    const generateMembersTable = (arr)=> {
           let tableId = document.getElementById('div-table');  
-          let items = JSON.parse(localStorage.getItem("members"));
+          let items = arr!==undefined ? arr:JSON.parse(localStorage.getItem("members"));
           
           let tableHtml = '';
           tableHtml += `
@@ -159,12 +159,11 @@ let appDashBoardFunctions = (()=> {
                 <div class="div-table-col">${ele.lastUpdated}</div>
                 <div class="div-table-col">${ele.notes}</div>
                 <div class="div-table-col" onclick="appDashBoardFunctions.deleteRow(this)" id="${ele.key}"><i class="material-icons">delete</i></div>
-             </div>              
-              `
+             </div>`;
           });
           tableId.innerHTML = '';
           tableId.innerHTML = tableHtml;
-    }
+    };
   
     const openModal = ()=> {
 
@@ -211,7 +210,7 @@ let appDashBoardFunctions = (()=> {
         });
         ddList.innerHTML = '';
         ddList.innerHTML = dropdownHtml;
-    }
+    };
 
 
     //reveal functions
@@ -227,7 +226,7 @@ let appDashBoardFunctions = (()=> {
         alphabeticalSort: alphabeticalSort,
         checkSelected: checkSelected,
         generateDropdownList: generateDropdownList
-    }
+    };
 
    return returnObject;
 
@@ -247,42 +246,46 @@ homePanel.addEventListener('click', function(){
     document.getElementById('panelHeader').innerText = 'Home';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
+    document.getElementById('dropdownCheckbox').style.display = 'none';
     homePanel.classList.add('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.remove('active');
     settingsPanel.classList.remove('active'); 
-})
+});
 
 document.getElementById('teamPanel').addEventListener('click', function(){
     appDashBoardFunctions.generateMembersTable();
     document.getElementById('panelHeader').innerText = 'Team Members';
     document.getElementById('memberForm').style.display = 'block';
     document.getElementById('addMembers').style.display = '';
+    document.getElementById('dropdownCheckbox').style.display = '';
     homePanel.classList.remove('active');
     teamPanel.classList.add('active');
     analyticsPanel.classList.remove('active');
     settingsPanel.classList.remove('active');
-})
+});
 
 document.getElementById('analyticsPanel').addEventListener('click', function(){
     document.getElementById('panelHeader').innerText = 'Analytics';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
+    document.getElementById('dropdownCheckbox').style.display = 'none';
     homePanel.classList.remove('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.add('active');
     settingsPanel.classList.remove('active');
-})
+});
 
 document.getElementById('settingsPanel').addEventListener('click', function(){
     document.getElementById('panelHeader').innerText = 'Settings';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
+    document.getElementById('dropdownCheckbox').style.display = 'none';
     homePanel.classList.remove('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.remove('active');
     settingsPanel.classList.add('active');
-})
+});
 
 
 
