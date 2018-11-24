@@ -217,11 +217,13 @@ nav ul li.active{
     justify-content: flex-end;
 }
 
-.modal-header,
-div#tableHeader>div:first-child{
+div#tableHeader>div:first-child{    
+    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+
+.flex-start{
     display: flex;
     justify-content: flex-start;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
 }
 
 .modal-close:hover,
@@ -345,8 +347,8 @@ button#dropdownCheckbox{
     line-height: 25px;
     padding-left: 12px;
     box-shadow: 0 0 2px rgba(0,0,0,0.35);
-    color: #333;
-    background: #FFF;
+    color: var(--base-black);
+    background: var(--white);
     outline: none;
     border: none;
     cursor: pointer;

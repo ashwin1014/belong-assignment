@@ -24,7 +24,7 @@ let appDashBoardFunctions = (()=> {
         document.getElementById('addMemberPopup').classList.remove('open');
     };
 
-     const toggleCheckbox = (ele)=> {
+     const toggleSelectAll = (ele)=> {
         let checkbox;
         if(ele.id == 'selectAllChkbox'){
             checkbox = document.querySelectorAll('.chkbox');
@@ -32,9 +32,15 @@ let appDashBoardFunctions = (()=> {
             checkbox = document.querySelectorAll('.drpDwnChkbox');
         }
         
+        let checkedBoxes = [];
         checkbox.forEach((item)=>{
-            if(item !== ele) item.checked = ele.checked
+            if(item !== ele) {
+                item.checked = ele.checked;
+                if(ele.checked==true) checkedBoxes.push(ele.checked)
+            }
        });
+
+       if(ele.id == 'dropdownAll') document.getElementById('counter').innerHTML = checkedBoxes.length;
     };
 
     const toggleDropdown=()=>{
@@ -56,7 +62,7 @@ let appDashBoardFunctions = (()=> {
       let checkedBoxes = [];
       for(var i=1; i<checkBox.length; i++){
         if(checkBox[i].checked) checkedBoxes.push(checkBox[i])
-       }
+      }
 
        if((checkedBoxes.length+1) == checkBox.length) checkBox[0].checked = true;
 
@@ -133,7 +139,7 @@ let appDashBoardFunctions = (()=> {
           let tableHtml = '';
           tableHtml += `
           <div class="div-table-row header">
-            <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleCheckbox(this)"></div>
+            <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleSelectAll(this)"></div>
             <div class="div-table-col" onclick="appDashBoardFunctions.alphabeticalSort(this)" style="cursor:pointer">Name</div>
             <div class="div-table-col">Company</div>
             <div class="div-table-col">Status</div>
@@ -168,7 +174,7 @@ let appDashBoardFunctions = (()=> {
         modalHtml += `        
         <div class="modal-window">
             <span class="modal-close" onclick="appDashBoardFunctions.closeModal()"><i class="material-icons">close</i></span>
-            <h3 class="modal-header">Add members</h3>
+            <h3 class="modal-header flex-start">Add members</h3>
             <div class="modal-body">
             <form action="" id="addMemberForm">
                 <label for="memname"><b>Name</b></label>
@@ -189,7 +195,7 @@ let appDashBoardFunctions = (()=> {
                 <button class="btn-default" onclick="appDashBoardFunctions.closeModal()">Cancel</button>
                 <button type="submit" id="btnSave" class="btn-primary" onclick="appDashBoardFunctions.saveItems()">Save</button>
             </div>
-      </div>`
+      </div>`;
         modal.innerHTML = '';
         modal.innerHTML = modalHtml;
     };
@@ -198,7 +204,7 @@ let appDashBoardFunctions = (()=> {
         let ddList = document.getElementById('dropdown-list');
         let items = JSON.parse(localStorage.getItem("members"));
         let dropdownHtml = '';
-        dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleCheckbox(this)">Select all</li>';
+        dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleSelectAll(this)">Select all</li>';
         items.map((ele)=>{
             dropdownHtml += `
             <li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSelected(this)">${ele.company}</li>`;
@@ -212,7 +218,7 @@ let appDashBoardFunctions = (()=> {
     const returnObject = {
         openModal: openModal,
         closeModal: closeModal,
-        toggleCheckbox: toggleCheckbox,
+        toggleSelectAll: toggleSelectAll,
         toggleDropdown: toggleDropdown,
         deleteRow: deleteRow,
         saveItems: saveItems,
