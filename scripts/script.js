@@ -51,6 +51,7 @@ let appDashBoardFunctions = (()=> {
 
         ddId.classList.toggle('hidden'); 
         generateDropdownList(ddId);
+        generateMembersTable();
         document.getElementById('counter').innerHTML = '0';
 
         if(ele.lastElementChild.innerText == "keyboard_arrow_down") ele.lastElementChild.innerText = "keyboard_arrow_up";
@@ -256,7 +257,7 @@ let appDashBoardFunctions = (()=> {
         });
        } else{
         status.map((ele)=>{          
-            dropdownHtml += `<li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSingle(this)">${ele}</li>`;
+            dropdownHtml += `<li><input type="checkbox" onchange="appDashBoardFunctions.checkSingle(this)">${ele}</li>`;
         });
        }
         list.innerHTML = '';
