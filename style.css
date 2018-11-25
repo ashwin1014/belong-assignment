@@ -336,19 +336,10 @@
     #dropdown label {
     display:block;
     }
-    
-    #dropdown-list-comp li,
-    #dropdown-list-status li {
-    list-style:none;
-    display:flex;
-    width:200px;
-    padding:5px;
-    font-size:14px;
-    }
-    
+          
     .dropdown-list {
     box-shadow:0 1px 3px rgba(0,0,0,0.35);
-    width:200px;
+    width:auto;
     height:auto;
     overflow-x:hidden;
     overflow-y:auto;
@@ -360,6 +351,15 @@
     top:31px;
     }
 
+    .dropdown-list li {
+    list-style:none;
+    display:flex;
+    width:auto;
+    padding:5px;
+    padding-right: 10px;
+    font-size:14px;
+    }
+
     #dropdown-list-status{
         left: 12.5%;
     }
@@ -368,22 +368,6 @@
     ul#dropdown-list-status input{
         margin-right: 10px;
     }
-    
-    /* button#dropdownCheckbox {
-    width:120px;
-    height:32px;
-    border-radius:2px;
-    line-height:25px;
-    padding-left:12px;
-    box-shadow:0 0 2px rgba(0,0,0,0.35);
-    color:var(--base-black);
-    background:var(--white);
-    outline:none;
-    border:none;
-    cursor:pointer;
-    display:inline-flex;
-    vertical-align:middle;
-    } */
     
     .dropdownHolder {
     z-index:9;

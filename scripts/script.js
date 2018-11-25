@@ -242,14 +242,23 @@ let appDashBoardFunctions = (()=> {
 
     const generateDropdownList = (list)=>{
         let items = JSON.parse(localStorage.getItem("members"));
-        let dropdownHtml = '';
-       if(list.id === 'dropdown-list-comp') dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleSelectAll(this)">Select all</li>';
-        items.map((ele)=>{
-            let listType = list.id === 'dropdown-list-comp' ? ele.company:ele.status;
-            let functionName = list.id === 'dropdown-list-comp' ? "appDashBoardFunctions.checkSelected(this)":"appDashBoardFunctions.checkSingle(this)";
-            dropdownHtml += `
-            <li><input type="checkbox" class="drpDwnChkbox" onchange=${functionName}>${listType}</li>`;
+        let status = items.map((ele)=>{
+            return ele.status;
         });
+        status = [...new Set(status)];
+
+        let dropdownHtml = '';
+       if(list.id === 'dropdown-list-comp') {
+        dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleSelectAll(this)">Select all</li>';
+        items.map((ele)=>{          
+            dropdownHtml += `
+            <li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSelected(this)">${ele.company}</li>`;
+        });
+       } else{
+        status.map((ele)=>{          
+            dropdownHtml += `<li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSingle(this)">${ele}</li>`;
+        });
+       }
         list.innerHTML = '';
         list.innerHTML = dropdownHtml;
 
