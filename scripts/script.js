@@ -4,6 +4,8 @@ window.onload = ()=> {
 };
 
 let appDashBoardFunctions = (()=> {   
+
+    let sortOrder = true;
     
     let membersArray = [
         {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
@@ -86,7 +88,7 @@ let appDashBoardFunctions = (()=> {
         localStorage.setItem("members", newItems);
     };
 
-    const alphabeticalSort = (ele)=> {
+    const alphabeticalSort = ()=> {
         let items = JSON.parse(localStorage.getItem("members"));
         let sortedArray = items.sort((a, b)=>{
             let x = a.name.toLowerCase();
@@ -97,8 +99,29 @@ let appDashBoardFunctions = (()=> {
         });
        // items = JSON.stringify(sortedArray);
        // localStorage.setItem("members", items);
-        generateMembersTable(sortedArray);
-        
+       // generateMembersTable(sortedArray);  
+       sortOrder = false;
+       return sortedArray;
+    };
+
+    const alphabeticalSortDesc = ()=> {
+        sortOrder = true;
+        return alphabeticalSort().reverse();
+    };
+
+    const toggleSort = (ele)=> {
+        // let sortedArray = sortOrder ? alphabeticalSort():alphabeticalSortDesc();      
+         let sortedArray;
+         let icon;
+         if(sortOrder){
+            sortedArray=alphabeticalSort();
+            icon = 'arrow_upward';
+         }else {
+            sortedArray= alphabeticalSortDesc();
+            icon = 'arrow_downward';
+         }
+
+         generateMembersTable(sortedArray,icon);
     };
 
     const saveItems = ()=> {
@@ -134,16 +157,17 @@ let appDashBoardFunctions = (()=> {
    
     };
 
-    const generateMembersTable = (arr)=> {
+    const generateMembersTable = (arr,icon)=> {
           let tableId = document.getElementById('div-table');  
           let formId = document.getElementById('memberForm');
           let items = arr!==undefined ? arr:JSON.parse(localStorage.getItem("members"));
-          
+          let arrow = icon!==undefined ? icon:null;
+
           let tableHtml = '';
           tableHtml += `
           <div class="div-table-row header">
             <div class="div-table-col"><input type="checkbox" class="chkbox" name="" id="selectAllChkbox" onchange="appDashBoardFunctions.toggleSelectAll(this)"></div>
-            <div class="div-table-col" onclick="appDashBoardFunctions.alphabeticalSort(this)" style="cursor:pointer">Name</div>
+            <div class="div-table-col" onclick="appDashBoardFunctions.toggleSort(this)" style="cursor:pointer">Name<i class="material-icons">${arrow}</i></div>
             <div class="div-table-col">Company</div>
             <div class="div-table-col">Status</div>
             <div class="div-table-col">Last Updated</div>
@@ -165,9 +189,7 @@ let appDashBoardFunctions = (()=> {
           tableId.innerHTML = '';
           tableId.innerHTML = tableHtml;
 
-          if(formId.scrollHeight>formId.clientHeight) formId.style.margin='0 6.5px';
-
-          
+          if(formId.scrollHeight>formId.clientHeight) formId.style.margin='0 6.5px';          
     };
   
     const openModal = ()=> {
@@ -229,6 +251,8 @@ let appDashBoardFunctions = (()=> {
         generateMembersTable: generateMembersTable,
         checkLocalStorage: checkLocalStorage,
         alphabeticalSort: alphabeticalSort,
+        alphabeticalSortDesc: alphabeticalSortDesc,
+        toggleSort: toggleSort,
         checkSelected: checkSelected,
         generateDropdownList: generateDropdownList
     };
