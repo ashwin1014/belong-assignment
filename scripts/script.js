@@ -6,12 +6,11 @@ window.onload = ()=> {
 let appDashBoardFunctions = (()=> {   
 
     let sortOrder = true;
-    let lastChecked = [];
     
     let membersArray = [
-        {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
+        {name: 'David Beckham', company: 'Manchester United', status: 'Closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
         {name: 'Wayne Rooney', company: 'DC United', status: 'Active', lastUpdated: '7/07/2017', notes:'ManUtd Highest scorer', key:'12'},
-        {name: 'Ryan Giggs', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:'24'},
+        {name: 'Ryan Giggs', company: 'Manchester United', status: 'Closed', lastUpdated: '3/08/2011', notes:'Most matches played', key:'24'},
         {name: 'Zlatan Ibrahimovic', company: 'LA Galaxy', status: 'Active', lastUpdated: '3/09/2018', notes:'I am \'ZLATAN\' ', key:'9'},
     ];
 
@@ -81,9 +80,9 @@ let appDashBoardFunctions = (()=> {
 
     const checkSingle = (ele)=> {
        let text = ele.parentElement.innerText;
-       let checkBox = document.querySelectorAll('.drpDwnChkbox');
+       let checkBox = document.querySelectorAll('.statusList');
        checkBox.forEach((item) => {
-        if (item !== ele) {item.checked = false;}
+        if (item !== ele) item.checked = false;
         else if(ele.checked === false) generateMembersTable();
       });
 
@@ -125,7 +124,6 @@ let appDashBoardFunctions = (()=> {
     };
 
     const toggleSort = (ele)=> {
-        // let sortedArray = sortOrder ? alphabeticalSort():alphabeticalSortDesc();      
          let sortedArray;
          let icon;
          if(sortOrder){
@@ -135,7 +133,6 @@ let appDashBoardFunctions = (()=> {
             sortedArray = alphabeticalSortDesc();
             icon = 'arrow_downward';
          }
-
          generateMembersTable(sortedArray,icon);
     };
 
@@ -257,7 +254,7 @@ let appDashBoardFunctions = (()=> {
         });
        } else{
         status.map((ele)=>{          
-            dropdownHtml += `<li><input type="checkbox" onchange="appDashBoardFunctions.checkSingle(this)">${ele}</li>`;
+            dropdownHtml += `<li><input type="checkbox" class="statusList" onchange="appDashBoardFunctions.checkSingle(this)">${ele}</li>`;
         });
        }
         list.innerHTML = '';
@@ -311,7 +308,7 @@ let appDashBoardFunctions = (()=> {
 })();
 
 
-document.getElementById('addMembers').addEventListener('click', function() {
+document.getElementById('addMembers').addEventListener('click', ()=> {
     appDashBoardFunctions.openModal();
 });
 
@@ -320,45 +317,49 @@ let teamPanel = document.getElementById('teamPanel');
 let analyticsPanel = document.getElementById('analyticsPanel');
 let settingsPanel = document.getElementById('settingsPanel');
 
-homePanel.addEventListener('click', function(){
+homePanel.addEventListener('click', ()=>{
     document.getElementById('panelHeader').innerText = 'Home';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
     document.getElementById('dropdownCheckbox').style.display = 'none';
+    document.getElementById('dropdownStatus').style.display = 'none';
     homePanel.classList.add('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.remove('active');
     settingsPanel.classList.remove('active'); 
 });
 
-document.getElementById('teamPanel').addEventListener('click', function(){
+document.getElementById('teamPanel').addEventListener('click', ()=>{
     appDashBoardFunctions.generateMembersTable();
     document.getElementById('panelHeader').innerText = 'Team Members';
     document.getElementById('memberForm').style.display = 'block';
     document.getElementById('addMembers').style.display = '';
     document.getElementById('dropdownCheckbox').style.display = '';
+    document.getElementById('dropdownStatus').style.display = '';
     homePanel.classList.remove('active');
     teamPanel.classList.add('active');
     analyticsPanel.classList.remove('active');
     settingsPanel.classList.remove('active');
 });
 
-document.getElementById('analyticsPanel').addEventListener('click', function(){
+document.getElementById('analyticsPanel').addEventListener('click', ()=>{
     document.getElementById('panelHeader').innerText = 'Analytics';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
     document.getElementById('dropdownCheckbox').style.display = 'none';
+    document.getElementById('dropdownStatus').style.display = 'none';
     homePanel.classList.remove('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.add('active');
     settingsPanel.classList.remove('active');
 });
 
-document.getElementById('settingsPanel').addEventListener('click', function(){
+document.getElementById('settingsPanel').addEventListener('click', ()=>{
     document.getElementById('panelHeader').innerText = 'Settings';
     document.getElementById('memberForm').style.display = 'none';
     document.getElementById('addMembers').style.display = 'none';
     document.getElementById('dropdownCheckbox').style.display = 'none';
+    document.getElementById('dropdownStatus').style.display = 'none';
     homePanel.classList.remove('active');
     teamPanel.classList.remove('active');
     analyticsPanel.classList.remove('active');
