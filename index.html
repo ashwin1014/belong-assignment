@@ -28,8 +28,10 @@
                <button id="addMembers" class="btn-primary">Add Members<i class="material-icons">add</i></button> 
             </div>
             <div class="dropdownHolder">
-                    <button id="dropdownCheckbox" onclick="appDashBoardFunctions.toggleDropdown()">Company(<p id="counter">0</p>)<i class="material-icons">keyboard_arrow_down</i></button>      
-                    <ul id="dropdown-list" class="hidden"></ul>
+                <button id="dropdownCheckbox" class="btn-ddown" onclick="appDashBoardFunctions.toggleDropdown(this)">Company(<p id="counter">0</p>)<i class="material-icons">keyboard_arrow_down</i></button>      
+                <ul id="dropdown-list-comp" class="hidden dropdown-list"></ul>
+                <button id="dropdownStatus" class="btn-ddown" onclick="appDashBoardFunctions.toggleDropdown(this)">Status<i class="material-icons">keyboard_arrow_down</i></button>  
+                <ul id="dropdown-list-status" class="hidden dropdown-list"></ul>    
             </div>
             <form id="memberForm">
                 <div id="div-table"></div>                  

@@ -6,6 +6,7 @@ window.onload = ()=> {
 let appDashBoardFunctions = (()=> {   
 
     let sortOrder = true;
+    let lastChecked = [];
     
     let membersArray = [
         {name: 'David Beckham', company: 'Manchester United', status: 'closed', lastUpdated: '3/08/2003', notes:'Most stylish player', key:'32'},
@@ -39,19 +40,21 @@ let appDashBoardFunctions = (()=> {
                 if(ele.checked==true) checkedBoxes.push(ele.checked);
             }
        });
-
        if(ele.id == 'dropdownAll') document.getElementById('counter').innerHTML = checkedBoxes.length;
     };
 
-    const toggleDropdown=()=>{
-        let ddId = document.getElementById('dropdown-list');
-        let ddBtn = document.getElementById('dropdownCheckbox');
+    const toggleDropdown=(ele)=>{
+        let ddId;
+
+        if(ele.id == 'dropdownCheckbox') ddId = document.getElementById('dropdown-list-comp');
+        else ddId = document.getElementById('dropdown-list-status');
+
         ddId.classList.toggle('hidden'); 
-        generateDropdownList();
+        generateDropdownList(ddId);
         document.getElementById('counter').innerHTML = '0';
 
-        if(ddBtn.childNodes[3].innerText == "keyboard_arrow_down") ddBtn.childNodes[3].innerText = "keyboard_arrow_up";
-        else ddBtn.childNodes[3].innerText = "keyboard_arrow_down";
+        if(ele.lastElementChild.innerText == "keyboard_arrow_down") ele.lastElementChild.innerText = "keyboard_arrow_up";
+        else ele.lastElementChild.innerText = "keyboard_arrow_down";
 
     };
 
@@ -73,6 +76,17 @@ let appDashBoardFunctions = (()=> {
        else if(checkBox[0].checked == true && (checkedBoxes.length+1) !== checkBox.length) checkBox[0].checked = false;
        
        if(ele.classList[0] == 'drpDwnChkbox') document.getElementById('counter').innerHTML = checkedBoxes.length;
+    };
+
+    const checkSingle = (ele)=> {
+       let text = ele.parentElement.innerText;
+       let checkBox = document.querySelectorAll('.drpDwnChkbox');
+       checkBox.forEach((item) => {
+        if (item !== ele) {item.checked = false;}
+        else if(ele.checked === false) generateMembersTable();
+      });
+
+      if(ele.checked) filterStatus(text);
     };
 
     const deleteRow = (ele) => {
@@ -114,10 +128,10 @@ let appDashBoardFunctions = (()=> {
          let sortedArray;
          let icon;
          if(sortOrder){
-            sortedArray=alphabeticalSort();
+            sortedArray = alphabeticalSort();
             icon = 'arrow_upward';
          }else {
-            sortedArray= alphabeticalSortDesc();
+            sortedArray = alphabeticalSortDesc();
             icon = 'arrow_downward';
          }
 
@@ -176,7 +190,7 @@ let appDashBoardFunctions = (()=> {
          </div>`;          
           items.map((ele)=>{
               tableHtml += `
-              <div class="div-table-row check">
+              <div class="div-table-row check" data-status="${ele.status}">
                 <div class="div-table-col "><input type="checkbox" class="chkbox" onchange="appDashBoardFunctions.checkSelected(this)"></div>
                 <div class="div-table-col">${ele.name}</div>
                 <div class="div-table-col">${ele.company}</div>
@@ -226,19 +240,42 @@ let appDashBoardFunctions = (()=> {
         modal.innerHTML = modalHtml;
     };
 
-    const generateDropdownList = ()=>{
-        let ddList = document.getElementById('dropdown-list');
+    const generateDropdownList = (list)=>{
         let items = JSON.parse(localStorage.getItem("members"));
         let dropdownHtml = '';
-        dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleSelectAll(this)">Select all</li>';
+       if(list.id === 'dropdown-list-comp') dropdownHtml += '<li><input type="checkbox" class="drpDwnChkbox" id="dropdownAll" onchange="appDashBoardFunctions.toggleSelectAll(this)">Select all</li>';
         items.map((ele)=>{
+            let listType = list.id === 'dropdown-list-comp' ? ele.company:ele.status;
+            let functionName = list.id === 'dropdown-list-comp' ? "appDashBoardFunctions.checkSelected(this)":"appDashBoardFunctions.checkSingle(this)";
             dropdownHtml += `
-            <li><input type="checkbox" class="drpDwnChkbox" onchange="appDashBoardFunctions.checkSelected(this)">${ele.company}</li>`;
+            <li><input type="checkbox" class="drpDwnChkbox" onchange=${functionName}>${listType}</li>`;
         });
-        ddList.innerHTML = '';
-        ddList.innerHTML = dropdownHtml;
+        list.innerHTML = '';
+        list.innerHTML = dropdownHtml;
+
+       if(list.id === 'dropdown-list-comp'){
+        document.getElementById('dropdown-list-status').classList.add('hidden');
+     //   if(document.getElementById('dropdownCheckbox').lastElementChild.innerText == "keyboard_arrow_down") document.getElementById('dropdownCheckbox').lastElementChild.innerText = "keyboard_arrow_up";
+       } 
+       else {
+        document.getElementById('dropdown-list-comp').classList.add('hidden');
+        // document.getElementById('dropdownStatus').lastElementChild.innerText = "keyboard_arrow_up";
+       // if(document.getElementById('dropdownStatus').lastElementChild.innerText == "keyboard_arrow_down") document.getElementById('dropdownStatus').lastElementChild.innerText = "keyboard_arrow_up";
+       }
+
     };
 
+    const filterStatus = (word)=> {
+        let listItems = document.querySelectorAll('.check');
+        for (let i = 0; i < listItems.length; i++) {
+            let listText = document.querySelectorAll('.check')[i].getAttribute('data-status');
+            if (listText.toLowerCase().match(word.toLowerCase())) {          
+                listItems[i].classList.remove('hidden');
+            } else {
+                listItems[i].classList.add('hidden');
+            }
+        }
+    };
 
     //reveal functions
     const returnObject = {
@@ -254,7 +291,9 @@ let appDashBoardFunctions = (()=> {
         alphabeticalSortDesc: alphabeticalSortDesc,
         toggleSort: toggleSort,
         checkSelected: checkSelected,
-        generateDropdownList: generateDropdownList
+        checkSingle: checkSingle,
+        generateDropdownList: generateDropdownList,
+        filterStatus: filterStatus
     };
 
    return returnObject;
